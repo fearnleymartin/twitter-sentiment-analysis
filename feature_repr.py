@@ -1,3 +1,5 @@
+from lexicons import load_lexicons
+from lexicons import score_lexicons
 import numpy as np
 from sklearn.linear_model.logistic import LogisticRegression
 from sklearn.cross_validation import cross_val_score
@@ -73,10 +75,17 @@ def cross_validation(clf, X, Y):
 
 
 if __name__ == '__main__':
+
     embeddings = load_embeddings()
+    print("Embeddings loaded")
     positive_tweets, negative_tweets = load_tweets()
     vocab_dict = load_vocab()
     positive_tweets_feature_repr, negative_tweets_feature_repr = feature_representation(embeddings, positive_tweets, negative_tweets, vocab_dict)
+    print("First feature representation achieved")
+    lexicon,words_lexicon=load_lexicons()
+    print("Lexicon and words loaded")
+    positive_tweets_lexicon_repr, negative_tweets_lexicon_repr = score_lexicons(lexicon,words_lexicon, positive_tweets, negative_tweets)
+    print("Second feature representation achieved")
     clf, X, Y = regression(positive_tweets_feature_repr, negative_tweets_feature_repr)
     score = cross_validation(clf, X, Y)
     print(score)
