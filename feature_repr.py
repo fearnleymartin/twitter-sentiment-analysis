@@ -1,5 +1,3 @@
-from lexicons import load_lexicons
-from lexicons import score_lexicons
 import numpy as np
 from sklearn.linear_model.logistic import LogisticRegression
 from sklearn.cross_validation import cross_val_score
@@ -14,6 +12,9 @@ def load_tweets():
     with open('train_neg.txt','r') as file:
         neg = file.readlines()
     return pos, neg
+
+def load_lexicon_features():
+    return np.load('pos_tweets_lexicon_features.npy'),np.load('neg_tweets_lexicon_features.npy')
 
 def load_vocab():
     """
@@ -56,6 +57,9 @@ def feature_representation(embeddings, positive_tweets, negative_tweets, vocab_d
         negative_tweets_feature_repr[index] = feature_repr
     return positive_tweets_feature_repr, negative_tweets_feature_repr
 
+def concatenate_features(feature_1,feature_2):
+    return np.concatenate((feature_1,feature_2),axis=1)
+
 def regression(positive_tweets_feature_repr, negative_tweets_feature_repr):
     """
     Build the data matrix and labels array from positive and negative tweet feature representation
@@ -82,12 +86,13 @@ if __name__ == '__main__':
     vocab_dict = load_vocab()
     positive_tweets_feature_repr, negative_tweets_feature_repr = feature_representation(embeddings, positive_tweets, negative_tweets, vocab_dict)
     print("First feature representation achieved")
-    lexicon,words_lexicon=load_lexicons()
-    print("Lexicon and words loaded")
-    positive_tweets_lexicon_repr, negative_tweets_lexicon_repr = score_lexicons(lexicon,words_lexicon, positive_tweets, negative_tweets)
-    print("Second feature representation achieved")
-    clf, X, Y = regression(positive_tweets_feature_repr, negative_tweets_feature_repr)
+    pos_tweets_lexicon_features,neg_tweets_lexicon_features=load_lexicon_features()
+    print("Lexicon features loaded")
+    pos_tweets_features = concatenate_features(positive_tweets_feature_repr,pos_tweets_lexicon_features)
+    neg_tweets_features = concatenate_features(negative_tweets_feature_repr,neg_tweets_lexicon_features)
+    print("Features concatenated")
+    print(pos_tweets_features.shape)
+    clf, X, Y = regression(pos_tweets_features, neg_tweets_features)
     score = cross_validation(clf, X, Y)
     print(score)
-
 
