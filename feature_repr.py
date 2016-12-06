@@ -11,10 +11,12 @@ def load_tweets():
         pos = file.readlines()
     with open('train_neg.txt','r') as file:
         neg = file.readlines()
-    return pos, neg
+    with open('test_data.txt','r') as file:
+        test=file.readlines()
+    return pos, neg, test
 
 def load_lexicon_features():
-    return np.load('pos_tweets_lexicon_features.npy'),np.load('neg_tweets_lexicon_features.npy')
+    return np.load('pos_tweets_lexicon_features.npy'),np.load('neg_tweets_lexicon_features.npy'),np.load('test_tweets_lexicon_features.npy')
 
 def load_vocab():
     """
@@ -86,7 +88,7 @@ if __name__ == '__main__':
     vocab_dict = load_vocab()
     positive_tweets_feature_repr, negative_tweets_feature_repr = feature_representation(embeddings, positive_tweets, negative_tweets, vocab_dict)
     print("First feature representation achieved")
-    pos_tweets_lexicon_features,neg_tweets_lexicon_features=load_lexicon_features()
+    pos_tweets_lexicon_features,neg_tweets_lexicon_features,test_tweets_lexicon_features=load_lexicon_features()
     print("Lexicon features loaded")
     pos_tweets_features = concatenate_features(positive_tweets_feature_repr,pos_tweets_lexicon_features)
     neg_tweets_features = concatenate_features(negative_tweets_feature_repr,neg_tweets_lexicon_features)

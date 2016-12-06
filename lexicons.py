@@ -89,10 +89,57 @@ def score_lexicons(lexicon,words_lexicon, positive_tweets, negative_tweets):
     np.save('neg_tweets_lexicon_features', negative_tweets_lexicon_features)
     return positive_tweets_lexicon_features,negative_tweets_lexicon_features
 
+
+def build_lexicon_features(lexicon,words_lexicon, tweets,filename):
+
+    nbrfeatures=6 #to be defined later
+    lexicon_features = np.zeros((len(tweets), nbrfeatures))
+
+    cpt = 0
+    cpt_perc=0
+    for index, tweet in enumerate(tweets):
+        words = tweet.split(' ')
+        feature_repr = np.zeros(nbrfeatures)
+        for word in words:
+            if word in words_lexicon:
+                index_word = words_lexicon.index(word)
+                score_word = lexicon[index_word][1]
+                numPositive = lexicon[index_word][2]
+                numNegative = lexicon[index_word][3]
+
+                #feature construction
+                feature_repr[0]+=score_word#total score
+                if(score_word>0):
+                    feature_repr[1]+=score_word*numPositive
+                    feature_repr[2] +=1
+                else:
+                    feature_repr[1]+=score_word*numNegative
+                    feature_repr[3] +=1
+
+                if(abs(score_word)>feature_repr[4]):
+                    feature_repr[4]=score_word #maximal score in abs value
+
+                feature_repr[5] += numPositive-numNegative
+
+        cpt = cpt+1
+        percentage = cpt/len(tweets)
+        if (percentage > cpt_perc*0.1):
+            print("Percentage of tweets treated: ", round(percentage*100,0),'%')
+            cpt_perc += 1
+        lexicon_features[index] = feature_repr
+    np.save(filename,lexicon_features)
+    return lexicon_features
+
 if __name__ == '__main__':
-    positive_tweets, negative_tweets = load_tweets()
+    positive_tweets, negative_tweets,test_tweets = load_tweets()
     print("Tweets loaded")
     lexicon,words_lexicon=load_lexicons()
     print("Lexicon and words loaded")
-    positive_tweets_lexicon_repr = score_lexicons(lexicon, words_lexicon, positive_tweets, negative_tweets)
-    print("Features from lexicon built")
+    '''
+    positive_tweets_lexicon_repr = build_lexicon_features(lexicon, words_lexicon, positive_tweets, 'pos_tweets_lexicon_features')
+    print("Positive features from lexicon built")
+    negative_tweets_lexicon_repr = build_lexicon_features(lexicon, words_lexicon, negative_tweets, 'neg_tweets_lexicon_features')
+    print("Negative features from lexicon built")
+    '''
+    test_tweets_lexicon_repr = build_lexicon_features(lexicon,words_lexicon,test_tweets,'test_tweets_lexicon_features')
+    print("Test tweets features built")
