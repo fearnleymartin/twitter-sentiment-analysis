@@ -131,15 +131,20 @@ def build_lexicon_features(lexicon,words_lexicon, tweets,filename):
     return lexicon_features
 
 if __name__ == '__main__':
-    positive_tweets, negative_tweets,test_tweets = load_tweets()
+    positive_tweets, negative_tweets,test_tweets = load_tweets(True)
     print("Tweets loaded")
     lexicon,words_lexicon=load_lexicons()
     print("Lexicon and words loaded")
-    '''
-    positive_tweets_lexicon_repr = build_lexicon_features(lexicon, words_lexicon, positive_tweets, 'pos_tweets_lexicon_features')
-    print("Positive features from lexicon built")
-    negative_tweets_lexicon_repr = build_lexicon_features(lexicon, words_lexicon, negative_tweets, 'neg_tweets_lexicon_features')
+    #positive features already built
+    #positive_tweets_lexicon_repr = build_lexicon_features(lexicon, words_lexicon, positive_tweets, 'pos_tweets_full_lexicon_features')
+    #print("Positive features from lexicon built")
+    negative_tweets_lexicon_repr = build_lexicon_features(lexicon, words_lexicon, negative_tweets, 'neg_tweets_full_lexicon_features')
     print("Negative features from lexicon built")
+
+
     '''
+    TEST FEATURES ALREADY BUILT
+
     test_tweets_lexicon_repr = build_lexicon_features(lexicon,words_lexicon,test_tweets,'test_tweets_lexicon_features')
     print("Test tweets features built")
+    '''

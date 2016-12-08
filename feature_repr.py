@@ -6,17 +6,32 @@ from helpers_py import export_predictions
 def load_embeddings():
     return np.load('embeddings.npy')
 
-def load_tweets():
-    with open('train_pos.txt','r') as file:
-        pos = file.readlines()
-    with open('train_neg.txt','r') as file:
-        neg = file.readlines()
+def load_tweets(full=False):
+    if full==False:
+        with open('train_pos.txt','r',encoding='utf8') as file:
+            pos = file.readlines()
+        with open('train_neg.txt','r',encoding='utf8') as file:
+            neg = file.readlines()
+    else:
+        with open('train_pos_full.txt','r',encoding='utf8') as file:
+            pos = file.readlines()
+        with open('train_neg_full.txt','r',encoding='utf8') as file:
+            neg = file.readlines()
     with open('test_data.txt','r') as file:
         test=file.readlines()
     return pos, neg, test
 
-def load_lexicon_features():
-    return np.load('pos_tweets_lexicon_features.npy'),np.load('neg_tweets_lexicon_features.npy'),np.load('test_tweets_lexicon_features.npy')
+def load_lexicon_features(full=False):
+    if full==False:
+        pos = np.load('pos_tweets_lexicon_features.npy')
+        neg = np.load('neg_tweets_lexicon_features.npy')
+    else:
+        pos = np.load('pos_tweets_full_lexicon_features.npy')
+        neg = np.load('neg_tweets_full_lexicon_features.npy')
+
+    test = np.load('test_tweets_lexicon_features.npy')
+
+    return pos, neg, test
 
 def load_vocab():
     """
@@ -101,27 +116,30 @@ def cross_validation(clf, X, Y):
 
 
 if __name__ == '__main__':
-
+    '''
     embeddings = load_embeddings()
     print("Embeddings loaded")
-    positive_tweets, negative_tweets,test_tweets = load_tweets()
+    positive_tweets, negative_tweets,test_tweets = load_tweets(full=True)
     vocab_dict = load_vocab()
     positive_tweets_feature_repr = feature_representation_v2(embeddings, positive_tweets, vocab_dict)
     negative_tweets_feature_repr = feature_representation_v2(embeddings,negative_tweets,vocab_dict)
     test_tweets_feature_repr = feature_representation_v2(embeddings,test_tweets,vocab_dict)
     print("First feature representation achieved")
-    pos_tweets_lexicon_features,neg_tweets_lexicon_features,test_tweets_lexicon_features=load_lexicon_features()
+    '''
+    pos_tweets_lexicon_features,neg_tweets_lexicon_features,test_tweets_lexicon_features=load_lexicon_features(full=True)
     print("Lexicon features loaded")
+    '''
     pos_tweets_features = concatenate_features(positive_tweets_feature_repr,pos_tweets_lexicon_features)
     neg_tweets_features = concatenate_features(negative_tweets_feature_repr,neg_tweets_lexicon_features)
     test_tweets_features = concatenate_features(test_tweets_feature_repr,test_tweets_lexicon_features)
     print("Features concatenated")
-    clf, X, Y = regression(pos_tweets_features, neg_tweets_features)
+    '''
+    clf, X, Y = regression(pos_tweets_lexicon_features, neg_tweets_lexicon_features)
     score = cross_validation(clf, X, Y)
     print(score)
-    predicted_labels=clf.predict(test_tweets_features)
+    predicted_labels=clf.predict(test_tweets_lexicon_features)
     print(predicted_labels)
-    export_predictions(predicted_labels)
+    export_predictions(predicted_labels,'submission_lexicon_only_features')
 
 
 
