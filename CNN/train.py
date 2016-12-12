@@ -5,8 +5,8 @@ import numpy as np
 import os
 import time
 import datetime
-import data_helpers
-from text_cnn import TextCNN
+import CNN.data_helpers as data_helpers
+from CNN.text_cnn import TextCNN
 from tensorflow.contrib import learn
 
 # Parameters
@@ -14,8 +14,8 @@ from tensorflow.contrib import learn
 
 # Data loading params
 tf.flags.DEFINE_float("dev_sample_percentage", .1, "Percentage of the training data to use for validation")
-tf.flags.DEFINE_string("positive_data_file", "./data/Tweets/train_pos.txt", "Data source for the positive data.")
-tf.flags.DEFINE_string("negative_data_file", "./data/Tweets/train_neg.txt", "Data source for the negative data.")
+tf.flags.DEFINE_string("positive_data_file", "./data/train_pos_cleaned.txt", "Data source for the positive data.")
+tf.flags.DEFINE_string("negative_data_file", "./data/train_neg_cleaned.txt", "Data source for the negative data.")
 tf.flags.DEFINE_string("test_data_file", "./data/Tweets/test_data.txt", "Data source for the test data")
 
 

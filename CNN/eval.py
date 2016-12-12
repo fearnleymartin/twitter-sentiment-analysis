@@ -14,13 +14,13 @@ import csv
 # ==================================================
 
 # Data Parameters
-tf.flags.DEFINE_string("positive_data_file", "./data/Tweets/train_pos.txt", "Data source for the positive data.")
-tf.flags.DEFINE_string("negative_data_file", "./data/Tweets/train_neg.txt", "Data source for the negative data.")
-tf.flags.DEFINE_string("test_data_file", "./data/Tweets/test_data.txt", "Data source for the test data")
+tf.flags.DEFINE_string("positive_data_file", "./data/train_pos_cleaned.txt", "Data source for the positive data.")
+tf.flags.DEFINE_string("negative_data_file", "./data/train_neg_cleaned.txt", "Data source for the negative data.")
+tf.flags.DEFINE_string("test_data_file", "./data/test_data.txt", "Data source for the test data")
 
 # Eval Parameters
 tf.flags.DEFINE_integer("batch_size", 64, "Batch Size (default: 64)")
-tf.flags.DEFINE_string("checkpoint_dir", "./runs/1481527486/checkpoints", "Checkpoint directory from training run")
+tf.flags.DEFINE_string("checkpoint_dir", "./runs/1481549603/checkpoints", "Checkpoint directory from training run")
 tf.flags.DEFINE_boolean("eval_train", False, "Evaluate on all training data")
 
 # Misc Parameters
