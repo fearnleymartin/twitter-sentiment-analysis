@@ -1,0 +1,3 @@
+http://www.wildml.com/2015/11/understanding-convolutional-neural-networks-for-nlp/
+
+http://www.wildml.com/2015/12/implementing-a-cnn-for-text-classification-in-tensorflow/
