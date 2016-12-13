@@ -8,19 +8,22 @@ import datetime
 import CNN.data_helpers as data_helpers
 from CNN.text_cnn import TextCNN
 from tensorflow.contrib import learn
+from gensim.models import word2vec
+
 
 # Parameters
 # ==================================================
 
 # Data loading params
 tf.flags.DEFINE_float("dev_sample_percentage", .1, "Percentage of the training data to use for validation")
-tf.flags.DEFINE_string("positive_data_file", "./data/train_pos_cleaned.txt", "Data source for the positive data.")
-tf.flags.DEFINE_string("negative_data_file", "./data/train_neg_cleaned.txt", "Data source for the negative data.")
-tf.flags.DEFINE_string("test_data_file", "./data/Tweets/test_data.txt", "Data source for the test data")
+tf.flags.DEFINE_string("positive_data_file", "data/train_pos_full_cleaned.txt", "Data source for the positive data.")
+tf.flags.DEFINE_string("negative_data_file", "data/train_neg_full_cleaned.txt", "Data source for the negative data.")
+tf.flags.DEFINE_string("test_data_file", "data/test_data.txt", "Data source for the test data")
+tf.flags.DEFINE_string("word2vec", "data/word2vec.model.bin", "Data source for word2vec / GloVe embeddings")
 
 
 # Model Hyperparameters
-tf.flags.DEFINE_integer("embedding_dim", 52, "Dimensionality of character embedding (default: 128)")
+tf.flags.DEFINE_integer("embedding_dim", 50, "Dimensionality of character embedding (default: 128)")
 tf.flags.DEFINE_string("filter_sizes", "3,4,5", "Comma-separated filter sizes (default: '3,4,5')")
 tf.flags.DEFINE_integer("num_filters", 128, "Number of filters per filter size (default: 128)")
 tf.flags.DEFINE_float("dropout_keep_prob", 0.5, "Dropout keep probability (default: 0.5)")
@@ -145,6 +148,19 @@ with tf.Graph().as_default():
 
         # Initialize all variables
         sess.run(tf.global_variables_initializer())
+
+        if FLAGS.word2vec:
+            # initial matrix with random uniform
+            initW = np.random.uniform(-0.25, 0.25, (len(vocab_processor.vocabulary_), FLAGS.embedding_dim))
+            # load any vectors from the word2vec
+            print("Load word2vec file {}\n".format(FLAGS.word2vec))
+            model = word2vec.Word2Vec.load_word2vec_format(FLAGS.word2vec, binary=True)
+            for word in model.vocab.keys():
+                idx = vocab_processor.vocabulary_.get(word)
+                if idx != 0:
+                    initW[idx] = model[word]
+            sess.run(cnn.W.assign(initW))
+
 
         def train_step(x_batch, y_batch):
             """
