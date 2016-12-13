@@ -4,4 +4,6 @@ http://www.wildml.com/2015/12/implementing-a-cnn-for-text-classification-in-tens
 
 http://cs231n.github.io/linear-classify/
 
+
+History on word embeddings: 
 http://sebastianruder.com/word-embeddings-1/
