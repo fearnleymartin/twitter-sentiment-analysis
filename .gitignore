@@ -2,6 +2,8 @@
 glove embeddings cleaned
 doc2vec
 .vagrant
-Vagrantfile
 glove.twitter.27B.zip
 .idea
+CNN/runs
+*.txt
+CNN/data
