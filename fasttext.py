@@ -1,13 +1,9 @@
 import re
+import numpy as np
 
 full = False
 
-train_pos_processed = 'train_pos_processed.txt'
-train_neg_processed = 'train_neg_processed.txt'
-train_fasttext = 'train_fasttext.txt'
-train_fasttext_no_label = 'train_fasttext_no_label.txt'
-# train_pos_fasttext = 'train_pos_processed_fasttext.txt'
-# train_neg_fasttext = 'train_neg_processed_fasttext.txt'
+
 
 def preprocess(input_file_pos, input_file_neg, output_file, full=False, label=True):
     """
@@ -48,20 +44,49 @@ def postprocess(input_file, output_file, full=False):
     if full:
         input_file = re.sub('.txt', '_full.txt', input_file)
         output_file = re.sub('.txt', '_full.txt', output_file)
+    predictions=[]
     with open(output_file, 'w', encoding='utf8') as of:
         of.write('Id,Prediction\n')
         with open(input_file, encoding='utf8') as f:
             for index, line in enumerate(f):
                 if line == '__label__NEG,\n':
                     of.write(str(index+1)+','+'-1\n')
+                    predictions.append(-1)
                 elif line == '__label__POS,\n':
                     of.write(str(index+1)+','+'1\n')
+                    predictions.append(1)
                 else:
                     raise Exception('Unknown label', line)
+    np.save('predictions',predictions)
 
+
+
+def accuracy(y_CV, predictions):
+    y_CV=np.load(y_CV)
+    predictions=np.load(predictions)
+    print(len(y_CV))
+    print(len(predictions))
+    print(np.sum(predictions==1)/len(predictions))
+    print(np.sum(y_CV==1)/len(y_CV))
+    print(np.sum(y_CV==-1)/len(y_CV))
+    accuracy=np.sum(y_CV==predictions)/len(y_CV)
+    return accuracy
+
+
+####################################################################################
+train_pos_processed = 'train_pos_processed.txt'
+train_neg_processed = 'train_neg_processed.txt'
+train_fasttext = 'train_fasttext.txt'
+train_fasttext_no_label = 'train_fasttext_no_label.txt'
+train_pos_processed_CV = 'train_pos_processed_CV.txt'
+train_neg_processed_CV = 'train_neg_processed_CV.txt'
+# train_pos_fasttext = 'train_pos_processed_fasttext.txt'
+# train_neg_fasttext = 'train_neg_processed_fasttext.txt'
 
 # Make sure to select correct lines to run
+#preprocess(train_pos_processed, train_neg_processed, train_fasttext_no_label, label=False, full=True)#pour avoir les word representations
 
-#preprocess(train_pos_processed, train_neg_processed, train_fasttext_no_label, label=False, full=True)
-#preprocess(train_pos_processed, train_neg_processed, train_fasttext, full=True)
+
+#preprocess(train_pos_processed_CV, train_neg_processed_CV, train_fasttext, full=True)
 postprocess('results_fasttext.txt', 'results_fasttext_processed.txt', full=True)
+print(accuracy('y_CV.npy','predictions.npy'))
