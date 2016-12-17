@@ -5,8 +5,8 @@ import numpy as np
 import os
 import time
 import datetime
-import CNN.data_helpers as data_helpers
-from CNN.text_cnn import TextCNN
+import data_helpers as data_helpers
+from text_cnn import TextCNN
 from tensorflow.contrib import learn
 from gensim.models import word2vec
 
@@ -16,8 +16,8 @@ from gensim.models import word2vec
 
 # Data loading params
 tf.flags.DEFINE_float("dev_sample_percentage", .1, "Percentage of the training data to use for validation")
-tf.flags.DEFINE_string("positive_data_file", "data/train_pos_full_cleaned.txt", "Data source for the positive data.")
-tf.flags.DEFINE_string("negative_data_file", "data/train_neg_full_cleaned.txt", "Data source for the negative data.")
+tf.flags.DEFINE_string("positive_data_file", "data/train_pos.txt", "Data source for the positive data.")
+tf.flags.DEFINE_string("negative_data_file", "data/train_neg.txt", "Data source for the negative data.")
 tf.flags.DEFINE_string("test_data_file", "data/test_data.txt", "Data source for the test data")
 tf.flags.DEFINE_string("word2vec", "data/word2vec.model.bin", "Data source for word2vec / GloVe embeddings")
 
@@ -160,7 +160,6 @@ with tf.Graph().as_default():
                 if idx != 0:
                     initW[idx] = model[word]
             sess.run(cnn.W.assign(initW))
-
 
         def train_step(x_batch, y_batch):
             """
