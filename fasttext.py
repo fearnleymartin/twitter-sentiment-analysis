@@ -62,6 +62,6 @@ def postprocess(input_file, output_file, full=False):
 
 # Make sure to select correct lines to run
 
-preprocess(train_pos_processed, train_neg_processed, train_fasttext_no_label, label=False, full=True)
-# preprocess(train_pos_processed, train_neg_processed, train_fasttext, full=True)
-# postprocess('results_fasttext.txt', 'results_fasttext_processed.txt', full=True)
+#preprocess(train_pos_processed, train_neg_processed, train_fasttext_no_label, label=False, full=True)
+#preprocess(train_pos_processed, train_neg_processed, train_fasttext, full=True)
+postprocess('results_fasttext.txt', 'results_fasttext_processed.txt', full=True)
