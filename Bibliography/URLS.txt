@@ -1,9 +1,0 @@
-http://www.wildml.com/2015/11/understanding-convolutional-neural-networks-for-nlp/
-
-http://www.wildml.com/2015/12/implementing-a-cnn-for-text-classification-in-tensorflow/
-
-http://cs231n.github.io/linear-classify/
-
-
-History on word embeddings: 
-http://sebastianruder.com/word-embeddings-1/
