@@ -2,30 +2,30 @@
 
 Download and install virtual box and vagrant
 
-In python settings, go to vagrant tab and select the exectuable file for vagrant
-in my case it is: C:/HashiCorp/Vagrant/bin/vagrant.exe
-Still in the settings, add a new box (ubuntu/trusty64 enter this as box name and box url)
-This will download a ubuntu image (can take a while about 300 M)
+In python settings, go to vagrant tab and select the exectuable file for vagrant  
+in my case it is: C:/HashiCorp/Vagrant/bin/vagrant.exe  
+Still in the settings, add a new box (ubuntu/trusty64 enter this as box name and box url)  
+This will download a ubuntu image (can take a while about 300 M)  
 
-In menu bar in pycharm: tools/vagrant/up
+In menu bar in pycharm: tools/vagrant/up  
 This will launch the virtual machine and install the necessary dependencies (including fasttext)
 
-To enter virtual machine:
-Tools/start ssh session
-This will open a command line interface which allows you to work in the virtual machine.
-Your files from pycharm should be synchronised.
+To enter virtual machine:  
+Tools/start ssh session  
+This will open a command line interface which allows you to work in the virtual machine.  
+Your files from pycharm should be synchronised.  
 (to see them `cd ../../vagrant` then `ls` )
 
 # Preprocessing
 
 ## tokenisation
-In file preprocessing.py
+In file preprocessing.py  
 Applies nltk tweet tokenizer
 
 Run this file to generate tokenised tweet files. Make sure correct lines are commented/decommented to run on correct files.
 
 ## fasttext formatting
-In file fasttext.py
+In file fasttext.py  
 Adds labels in correct format for fasttext
 
 Run to generate input file for fasttext. Again make sure correct lines are commented/decommented. For preprocessing, you only want to decomment preprocess lines, make sure post processing lines are commented.
@@ -42,7 +42,7 @@ To evaluate on text :
 
 # fasttext postprocessing
 
-In file fasttext.py
+In file fasttext.py  
 Adapts the fasttext output to kaggle submission format
 
 Run the file with only postprocessing lines decommented
