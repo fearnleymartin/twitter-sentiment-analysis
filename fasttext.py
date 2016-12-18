@@ -64,11 +64,10 @@ def postprocess(input_file, output_file, full=False):
 def accuracy(y_CV, predictions):
     y_CV=np.load(y_CV)
     predictions=np.load(predictions)
-    print(len(y_CV))
-    print(len(predictions))
-    print(np.sum(predictions==1)/len(predictions))
-    print(np.sum(y_CV==1)/len(y_CV))
-    print(np.sum(y_CV==-1)/len(y_CV))
+    if not len(y_CV) == len(predictions):
+        raise Exception('Vectors should be the same size!')
+    print('Proportion of positive in predictions:', np.sum(predictions==1)/len(predictions))
+    print('Proportion of positive in labels:', np.sum(y_CV==1)/len(y_CV))
     accuracy=np.sum(y_CV==predictions)/len(y_CV)
     return accuracy
 
@@ -84,9 +83,24 @@ train_neg_processed_CV = 'train_neg_processed_CV.txt'
 # train_neg_fasttext = 'train_neg_processed_fasttext.txt'
 
 # Make sure to select correct lines to run
-#preprocess(train_pos_processed, train_neg_processed, train_fasttext_no_label, label=False, full=True)#pour avoir les word representations
 
+#------------------------------------------------------
+# TO OBTAIN WORD REPRESENTATION
+#------------------------------------------------------
+#preprocess(train_pos_processed, train_neg_processed, train_fasttext_no_label, label=False, full=True)
+
+#------------------------------------------------------
+# GENERATE THE PROPER TRAIN DATASET FOR FASTTEXT :
+# To be done only once for a given train dataset
+#------------------------------------------------------
 
 #preprocess(train_pos_processed_CV, train_neg_processed_CV, train_fasttext, full=True)
+
+
+#--------------------------------------------------------
+# POSTPROCESSING
+# Generate the output file and computes the accuracy in the cross validation
+#--------------------------------------------------------
+
 postprocess('results_fasttext.txt', 'results_fasttext_processed.txt', full=True)
-print(accuracy('y_CV.npy','predictions.npy'))
+print('The accuracy of this method is :', accuracy('y_CV.npy','predictions.npy'))

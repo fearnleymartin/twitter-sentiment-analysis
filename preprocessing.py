@@ -50,11 +50,8 @@ def separate_crossval(input_file_pos,output_file_pos,input_file_neg,output_file_
     dev_sample_index_pos = -1*int(percentage*float(len(tweets_pos)))
     dev_sample_index_neg = -1 * int(percentage * float(len(tweets_neg)))
     pos_train,pos_dev = tweets_pos[:dev_sample_index_pos], tweets_pos[dev_sample_index_pos:]
-    neg_train,neg_dev = tweets_neg[:dev_sample_index_neg], tweets_pos[dev_sample_index_neg:]
-    print(len(pos_train))
-    print(len(pos_dev))
-    print(len(neg_train))
-    print(len(neg_dev))
+    neg_train,neg_dev = tweets_neg[:dev_sample_index_neg], tweets_neg[dev_sample_index_neg:]
+
     with open(output_file_pos,'w',encoding='utf8') as f:
         for tweet in pos_train:
             f.write(tweet)
@@ -78,7 +75,7 @@ def separate_crossval(input_file_pos,output_file_pos,input_file_neg,output_file_
             f.write(tweet)
 
     np.save('y_CV',y)
-    print(len(y))
+    print('Number of items in the Test_CV set : ',len(y))
 
 
 
@@ -92,11 +89,21 @@ test_processed = 'test_data_processed.txt'
 
 # Make sure you select the correct lines
 
+
+#----------------------------------------------------------------
+# PREPROCESSING : should be done only once to generate the files
+# ---------------------------------------------------------------
 #preprocess(train_pos, train_pos_processed, full=True)
 #preprocess(train_neg, train_neg_processed, full=True)
-#separate_crossval(train_pos_processed,'train_pos_processed_CV.txt',train_neg_processed,'train_neg_processed_CV.txt','test_CV.txt',0.1,full=True)
-#preprocess('test_CV.txt','test_CV_processed.txt',remove_index=True,full=True)
-
 #preprocess(test, test_processed, remove_duplicates=False, remove_index=True)
+
+
+#-------------------------------------------------------------------------------
+# CROSS VALIDATION : choose the percentage of the CV
+#---------------------------------------------------------------------------------
+separate_crossval(train_pos_processed,'train_pos_processed_CV.txt',train_neg_processed,'train_neg_processed_CV.txt','test_CV.txt',0.05,full=True)
+
+
+
 
 
