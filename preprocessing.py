@@ -82,8 +82,12 @@ def separate_crossval(input_file_pos,output_file_pos,input_file_neg,output_file_
 ###################################################
 train_pos = '../Tweets/train_pos.txt'
 train_neg = '../Tweets/train_neg.txt'
+train_pos_correct = 'train_pos_correct.txt'
+
 train_pos_processed = 'train_pos_processed.txt'
 train_neg_processed = 'train_neg_processed.txt'
+train_neg_correct = 'train_neg_correct.txt'
+
 test = '../Tweets/test_data.txt'
 test_processed = 'test_data_processed.txt'
 
@@ -93,15 +97,15 @@ test_processed = 'test_data_processed.txt'
 #----------------------------------------------------------------
 # PREPROCESSING : should be done only once to generate the files
 # ---------------------------------------------------------------
-#preprocess(train_pos, train_pos_processed, full=True)
-#preprocess(train_neg, train_neg_processed, full=True)
+preprocess(train_pos, train_pos_processed, full=False)
+preprocess(train_neg, train_neg_processed, full=False)
 #preprocess(test, test_processed, remove_duplicates=False, remove_index=True)
 
 
 #-------------------------------------------------------------------------------
 # CROSS VALIDATION : choose the percentage of the CV
 #---------------------------------------------------------------------------------
-separate_crossval(train_pos_processed,'train_pos_processed_CV.txt',train_neg_processed,'train_neg_processed_CV.txt','test_CV.txt',0.05,full=True)
+separate_crossval(train_pos_processed,'train_pos_processed_CV.txt',train_neg_processed,'train_neg_processed_CV.txt','test_CV.txt',0.05,full=False)
 
 
 

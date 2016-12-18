@@ -94,7 +94,7 @@ train_neg_processed_CV = 'train_neg_processed_CV.txt'
 # To be done only once for a given train dataset
 #------------------------------------------------------
 
-#preprocess(train_pos_processed_CV, train_neg_processed_CV, train_fasttext, full=True)
+#preprocess(train_pos_processed_CV, train_neg_processed_CV, train_fasttext, full=False)
 
 
 #--------------------------------------------------------
@@ -102,5 +102,5 @@ train_neg_processed_CV = 'train_neg_processed_CV.txt'
 # Generate the output file and computes the accuracy in the cross validation
 #--------------------------------------------------------
 
-postprocess('results_fasttext.txt', 'results_fasttext_processed.txt', full=True)
+postprocess('results_fasttext.txt', 'results_fasttext_processed.txt', full=False)
 print('The accuracy of this method is :', accuracy('y_CV.npy','predictions.npy'))
