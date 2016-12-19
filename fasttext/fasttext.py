@@ -60,15 +60,14 @@ def postprocess(input_file, output_file, full=False):
     np.save('predictions',predictions)
 
 
-
 def accuracy(y_CV, predictions):
-    y_CV=np.load(y_CV)
-    predictions=np.load(predictions)
+    y_CV = np.load(y_CV)
+    predictions = np.load(predictions)
     if not len(y_CV) == len(predictions):
         raise Exception('Vectors should be the same size!')
-    print('Proportion of positive in predictions:', np.sum(predictions==1)/len(predictions))
-    print('Proportion of positive in labels:', np.sum(y_CV==1)/len(y_CV))
-    accuracy=np.sum(y_CV==predictions)/len(y_CV)
+    print('Proportion of positive in predictions:', np.sum(predictions == 1)/len(predictions))
+    print('Proportion of positive in labels:', np.sum(y_CV == 1)/len(y_CV))
+    accuracy = np.sum(y_CV == predictions)/len(y_CV)
     return accuracy
 
 
@@ -102,5 +101,5 @@ train_neg_processed_CV = 'train_neg_processed_CV.txt'
 # Generate the output file and computes the accuracy in the cross validation
 #--------------------------------------------------------
 
-postprocess('results_fasttext.txt', 'results_fasttext_processed.txt', full=False)
-print('The accuracy of this method is :', accuracy('y_CV.npy','predictions.npy'))
+# postprocess('results_fasttext.txt', 'results_fasttext_processed.txt', full=False)
+# print('The accuracy of this method is :', accuracy('y_CV.npy','predictions.npy'))

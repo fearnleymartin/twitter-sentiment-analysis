@@ -29,6 +29,7 @@ def load_data_and_labels(positive_data_file, negative_data_file, datasize=100000
     """
     Loads MR polarity data from files, splits the data into words and generates labels.
     Returns split sentences and labels.
+    @param datasize: allows you to limit the datasize being used
     """
     # Load data from files
     positive_examples = list(open(positive_data_file, "r",encoding="utf8").readlines())[0:datasize]
