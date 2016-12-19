@@ -1,6 +1,6 @@
 # Generating the word embeddings
 
-Run word2vec/generate_embeddings after specifying input/output files
+Run word2vec/generate_embeddings.py after specifying input/output files
 
 This will generate a binary file storing all the word representation as learnt from the input tweets
 
