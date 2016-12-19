@@ -10,10 +10,13 @@ from sklearn.ensemble import RandomForestClassifier
 from gensim.models import word2vec
 
 # Input file paths
-train_pos = ''
-train_neg = ''
-test = ''
-word2vec_model = 'word2vec.model.bin'
+train_pos = '../data/processed/train_pos_processed_full.txt'
+train_neg = '../data/processed/train_neg_processed_full.txt'
+test = '../data/processed/test_data_processed.txt'
+word2vec_model = 'models/word2vec2.preprocessed.full.model.bin'
+
+# Output file paths
+predictions_output = 'results/word2vec.txt'
 
 
 def load_tweets(train_pos, train_neg, test):
@@ -79,7 +82,7 @@ if __name__ == '__main__':
     print(score)
 
     predicted_labels = clf.predict(test_tweets_feature_repr)
-    export_predictions(predicted_labels, 'results/word2vec.txt')
+    export_predictions(predicted_labels, predictions_output)
     print('predictions exported')
 
 

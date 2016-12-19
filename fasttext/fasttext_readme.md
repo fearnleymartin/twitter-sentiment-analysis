@@ -1,4 +1,4 @@
-# Install the virtual machine with vagrant
+# Install the virtual machine with vagrant (windows only)
 
 Download and install virtual box and vagrant
 
@@ -18,6 +18,8 @@ Your files from pycharm should be synchronised.
 
 # Preprocessing
 
+We first tokenise the text, then we need to format the text for usage with fasttext
+
 ## tokenisation
 In file preprocessing/preprocessing.py  
 Applies nltk tweet tokenizer to tweets
@@ -25,10 +27,10 @@ Applies nltk tweet tokenizer to tweets
 Run this file to generate tokenised tweet files. Make sure correct lines are commented/decommented to run on correct files.
 
 ## fasttext formatting
-In file fasttext/fasttext.py  
-Adds labels in correct format for fasttext
+In file fasttext/fasttext_formatting.py  
+Adds labels in correct format for fasttext and combines pos/neg into single file
 
-Run to generate input file for fasttext. Again make sure correct lines are commented/decommented. For preprocessing, you only want to decomment preprocess lines, make sure post processing lines are commented.
+Make sure to specify correct input/output filepaths
 
 # Fasttext 
 To run fasttext: enter fasttext directory
@@ -42,7 +44,7 @@ To evaluate on text :
 
 # fasttext postprocessing
 
-In file fasttext.py  
+In file fasttext/postprocessing.py  
 Adapts the fasttext output to kaggle submission format
 
-Run the file with only postprocessing lines decommented
+Specify input/outputs

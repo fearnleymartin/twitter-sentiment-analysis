@@ -45,10 +45,10 @@ def accuracy(y_CV, predictions):
 
 ####################################################################################
 # Input
-results_file = 'results_fasttext.txt'
+results_file = 'results/results_fasttext.txt'
 
 # Output
-results_file_processed = 'results_fasttext_processed.txt'
+results_file_processed = 'results/results_fasttext_processed.txt'
 
 #--------------------------------------------------------
 # POSTPROCESSING

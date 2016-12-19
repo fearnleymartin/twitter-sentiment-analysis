@@ -5,8 +5,8 @@ import numpy as np
 import os
 import time
 import datetime
-import data_helpers as data_helpers
-from text_cnn import TextCNN
+import cnn.data_helpers as data_helpers
+from cnn.text_cnn import TextCNN
 from tensorflow.contrib import learn
 from gensim.models import word2vec
 
@@ -19,7 +19,7 @@ tf.flags.DEFINE_float("dev_sample_percentage", .02, "Percentage of the training 
 tf.flags.DEFINE_string("positive_data_file", "../data/processed/train_pos_processed_full.txt", "Data source for the positive data.")
 tf.flags.DEFINE_string("negative_data_file", "../data/processed/train_neg_processed_full.txt", "Data source for the negative data.")
 tf.flags.DEFINE_string("test_data_file", "../data/processed/test_data_processed.txt", "Data source for the test data")
-# tf.flags.DEFINE_string("word2vec", "data/word2vec.preprocessed.full.model.bin", "Data source for word2vec / GloVe embeddings")
+tf.flags.DEFINE_string("word2vec", None, "Data source for word2vec / GloVe embeddings")
 tf.flags.DEFINE_string("fasttext", "../fasttext/models/model_fasttext_repr.vec", "Data source for fasttext embeddings")
 
 
@@ -151,20 +151,20 @@ with tf.Graph().as_default():
         # Initialize all variables
         sess.run(tf.global_variables_initializer())
 
-        # if FLAGS.word2vec:
-        #     # initial matrix with random uniform
-        #     initW = np.random.uniform(-0.25, 0.25, (len(vocab_processor.vocabulary_), FLAGS.embedding_dim))
-        #     # load any vectors from the word2vec
-        #     print("Load word2vec file {}\n".format(FLAGS.word2vec))
-        #     model = word2vec.Word2Vec.load_word2vec_format(FLAGS.word2vec, binary=True)
-        #     for word in model.vocab.keys():
-        #         idx = vocab_processor.vocabulary_.get(word)
-        #         if idx != 0:
-        #             initW[idx] = model[word]
-        #     sess.run(cnn.W.assign(initW))
-        #     print('loaded word2vec file')
+        if FLAGS.word2vec:  # initialise with word2vec embeddings
+            # initial matrix with random uniform
+            initW = np.random.uniform(-0.25, 0.25, (len(vocab_processor.vocabulary_), FLAGS.embedding_dim))
+            # load any vectors from the word2vec
+            print("Load word2vec file {}\n".format(FLAGS.word2vec))
+            model = word2vec.Word2Vec.load_word2vec_format(FLAGS.word2vec, binary=True)
+            for word in model.vocab.keys():
+                idx = vocab_processor.vocabulary_.get(word)
+                if idx != 0:
+                    initW[idx] = model[word]
+            sess.run(cnn.W.assign(initW))
+            print('loaded word2vec file')
 
-        if FLAGS.fasttext:
+        if FLAGS.fasttext:  # initialise word fasttext embeddings
             initW = np.random.uniform(-0.25, 0.25, (len(vocab_processor.vocabulary_), FLAGS.embedding_dim))
             print("Load fasttext file {}\n".format(FLAGS.fasttext))
             with open(FLAGS.fasttext, encoding='utf8') as f:

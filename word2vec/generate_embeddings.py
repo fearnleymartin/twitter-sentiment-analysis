@@ -7,11 +7,11 @@ import logging
 import re
 
 # Input file paths (pos and neg tweets)
-train_pos = 'train_pos_processed_full.txt'
-train_neg = 'train_neg_processed_full.txt'
+train_pos = '../data/processed/train_pos_processed_full.txt'
+train_neg = '../data/processed/train_neg_processed_full.txt'
 
 # Output file path (model for word2vec)
-output_model = 'word2vec.preprocessed.full.model.bin'
+output_model = 'models/word2vec2.preprocessed.full.model.bin'
 
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
