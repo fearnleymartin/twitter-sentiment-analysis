@@ -7,3 +7,4 @@ glove.twitter.27B.zip
 CNN/runs
 *.txt
 CNN/data
+*.pyc
