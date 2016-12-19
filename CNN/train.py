@@ -15,25 +15,27 @@ from gensim.models import word2vec
 # ==================================================
 
 # Data loading params
-tf.flags.DEFINE_float("dev_sample_percentage", .1, "Percentage of the training data to use for validation")
-tf.flags.DEFINE_string("positive_data_file", "data/train_pos_full_cleaned.txt", "Data source for the positive data.")
-tf.flags.DEFINE_string("negative_data_file", "data/train_neg_full_cleaned.txt", "Data source for the negative data.")
-tf.flags.DEFINE_string("test_data_file", "data/test_data.txt", "Data source for the test data")
-tf.flags.DEFINE_string("word2vec", "data/word2vec.model.bin", "Data source for word2vec / GloVe embeddings")
+tf.flags.DEFINE_float("dev_sample_percentage", .02, "Percentage of the training data to use for validation")
+tf.flags.DEFINE_string("positive_data_file", "data/train_pos_processed_full.txt", "Data source for the positive data.")
+tf.flags.DEFINE_string("negative_data_file", "data/train_neg_processed_full.txt", "Data source for the negative data.")
+tf.flags.DEFINE_string("test_data_file", "data/test_data_processed.txt", "Data source for the test data")
+# tf.flags.DEFINE_string("word2vec", "data/word2vec.preprocessed.full.model.bin", "Data source for word2vec / GloVe embeddings")
+tf.flags.DEFINE_string("fasttext", "data/model_fasttext_repr.vec", "Data source for fasttext embeddings")
+
 
 
 # Model Hyperparameters
-tf.flags.DEFINE_integer("embedding_dim", 50, "Dimensionality of character embedding (default: 128)")
+tf.flags.DEFINE_integer("embedding_dim", 100, "Dimensionality of character embedding (default: 128)")
 tf.flags.DEFINE_string("filter_sizes", "3,4,5", "Comma-separated filter sizes (default: '3,4,5')")
 tf.flags.DEFINE_integer("num_filters", 128, "Number of filters per filter size (default: 128)")
 tf.flags.DEFINE_float("dropout_keep_prob", 0.5, "Dropout keep probability (default: 0.5)")
-tf.flags.DEFINE_float("l2_reg_lambda", 0.0, "L2 regularizaion lambda (default: 0.0)")
+tf.flags.DEFINE_float("l2_reg_lambda", 0.000, "L2 regularizaion lambda (default: 0.0)")
 
 # Training parameters
 tf.flags.DEFINE_integer("batch_size", 64, "Batch Size (default: 64)")
-tf.flags.DEFINE_integer("num_epochs", 1, "Number of training epochs (default: 200)")
-tf.flags.DEFINE_integer("evaluate_every", 150, "Evaluate model on dev set after this many steps (default: 100)")
-tf.flags.DEFINE_integer("checkpoint_every", 150, "Save model after this many steps (default: 100)")
+tf.flags.DEFINE_integer("num_epochs", 15, "Number of training epochs (default: 200)")
+tf.flags.DEFINE_integer("evaluate_every", 300, "Evaluate model on dev set after this many steps (default: 100)")
+tf.flags.DEFINE_integer("checkpoint_every", 100, "Save model after this many steps (default: 100)")
 # Misc Parameters
 tf.flags.DEFINE_boolean("allow_soft_placement", True, "Allow device soft device placement")
 tf.flags.DEFINE_boolean("log_device_placement", False, "Log placement of ops on devices")
@@ -149,18 +151,31 @@ with tf.Graph().as_default():
         # Initialize all variables
         sess.run(tf.global_variables_initializer())
 
-        if FLAGS.word2vec:
-            # initial matrix with random uniform
-            initW = np.random.uniform(-0.25, 0.25, (len(vocab_processor.vocabulary_), FLAGS.embedding_dim))
-            # load any vectors from the word2vec
-            print("Load word2vec file {}\n".format(FLAGS.word2vec))
-            model = word2vec.Word2Vec.load_word2vec_format(FLAGS.word2vec, binary=True)
-            for word in model.vocab.keys():
-                idx = vocab_processor.vocabulary_.get(word)
-                if idx != 0:
-                    initW[idx] = model[word]
-            sess.run(cnn.W.assign(initW))
+        # if FLAGS.word2vec:
+        #     # initial matrix with random uniform
+        #     initW = np.random.uniform(-0.25, 0.25, (len(vocab_processor.vocabulary_), FLAGS.embedding_dim))
+        #     # load any vectors from the word2vec
+        #     print("Load word2vec file {}\n".format(FLAGS.word2vec))
+        #     model = word2vec.Word2Vec.load_word2vec_format(FLAGS.word2vec, binary=True)
+        #     for word in model.vocab.keys():
+        #         idx = vocab_processor.vocabulary_.get(word)
+        #         if idx != 0:
+        #             initW[idx] = model[word]
+        #     sess.run(cnn.W.assign(initW))
+        #     print('loaded word2vec file')
 
+        if FLAGS.fasttext:
+            initW = np.random.uniform(-0.25, 0.25, (len(vocab_processor.vocabulary_), FLAGS.embedding_dim))
+            print("Load fasttext file {}\n".format(FLAGS.fasttext))
+            with open(FLAGS.fasttext, encoding='utf8') as f:
+                header = f.readline()
+                for line in f:
+                    word, vector = line.split()[0], line.split()[1:]
+                    assert len(vector) == FLAGS.embedding_dim
+                    idx = vocab_processor.vocabulary_.get(word)
+                    if idx != 0:
+                        initW[idx] = vector
+                sess.run(cnn.W.assign(initW))
 
         def train_step(x_batch, y_batch):
             """
