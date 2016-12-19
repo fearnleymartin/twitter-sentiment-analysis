@@ -57,4 +57,4 @@ results_file_processed = 'results_fasttext_processed.txt'
 
 if __name__ == "__main__":
     fasttext_postprocess(results_file, results_file_processed, full=False)
-    print('The accuracy of this method is :', accuracy('y_CV.npy','predictions.npy'))
+    print('The accuracy of this method is :', accuracy('y_CV.npy', 'predictions.npy'))

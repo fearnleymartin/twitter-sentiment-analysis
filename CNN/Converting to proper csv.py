@@ -1,5 +1,5 @@
 import numpy as np
-from cnn.helpers_py import export_predictions
+from helpers_py import export_predictions
 
 
 predictions = np.load('predictions.npy')
