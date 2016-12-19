@@ -1,8 +1,8 @@
 import numpy as np
 from helpers_py import export_predictions
 
-input_file = 'predictions.npy'  # file to process
-output_file = 'Short_without_word2vec'  # file formatted for kaggle submission
+input_file = 'predictions/predictions.npy'  # file to process
+output_file = 'results/Short_without_word2vec'  # file formatted for kaggle submission
 
 if __name__ == "__main__":
     predictions = np.load(input_file)

@@ -48,3 +48,11 @@ In file fasttext/postprocessing.py
 Adapts the fasttext output to kaggle submission format
 
 Specify input/outputs
+
+# cross validation
+
+```
+python ../../../vagrant/fasttext/cross_validation.py
+```
+
+You can specify the input file to use and the number of folds
