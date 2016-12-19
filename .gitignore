@@ -8,3 +8,4 @@ CNN/runs
 *.txt
 CNN/data
 *.pyc
+*.bin

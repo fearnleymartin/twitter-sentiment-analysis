@@ -5,8 +5,8 @@ import numpy as np
 import os
 import time
 import datetime
-import CNN.data_helpers as data_helpers
-from CNN.text_cnn import TextCNN
+import data_helpers as data_helpers
+from text_cnn import TextCNN
 from tensorflow.contrib import learn
 from gensim.models import word2vec
 
