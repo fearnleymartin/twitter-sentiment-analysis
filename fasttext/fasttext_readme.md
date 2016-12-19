@@ -25,7 +25,7 @@ Applies nltk tweet tokenizer to tweets
 Run this file to generate tokenised tweet files. Make sure correct lines are commented/decommented to run on correct files.
 
 ## fasttext formatting
-In file fasttext.py  
+In file fasttext/fasttext.py  
 Adds labels in correct format for fasttext
 
 Run to generate input file for fasttext. Again make sure correct lines are commented/decommented. For preprocessing, you only want to decomment preprocess lines, make sure post processing lines are commented.
