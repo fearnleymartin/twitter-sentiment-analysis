@@ -1,5 +1,6 @@
 """
 We train a random forest classifier using word embeddings from word2vec (gensim)
+We represent each tweet as the sum of its word embeddings
 """
 
 import numpy as np
@@ -8,38 +9,23 @@ from helpers_py import export_predictions
 from sklearn.ensemble import RandomForestClassifier
 from gensim.models import word2vec
 
+# Input file paths
+train_pos = ''
+train_neg = ''
+test = ''
+word2vec_model = 'word2vec.model.bin'
 
-def load_tweets(full=False, cleaned=False):
+
+def load_tweets(train_pos, train_neg, test):
     """
-    Loads tweets from file to list
-    :param full: specify if we want the full data set or not
-    :param cleaned: specify whether we want cleaned tweets or not
-    :return:
+    Loads each set of tweets from file to list
+    :return: list of pos tweets, list of negative tweets, list of test tweets
     """
-    dir = '../data/processed'
-    if not full:
-        if cleaned:
-            with open(dir + 'train_pos_cleaned.txt', encoding='utf8') as file:
-                pos = file.readlines()
-            with open(dir + 'train_neg_cleaned.txt', encoding='utf8') as file:
-                neg = file.readlines()
-        else:
-            with open(dir + 'train_pos_processed.txt', encoding='utf8') as file:
-                pos = file.readlines()
-            with open(dir + 'train_neg_processed.txt', encoding='utf8') as file:
-                neg = file.readlines()
-    else:
-        if cleaned:
-            with open(dir + 'train_pos_full_cleaned.txt', encoding='utf8') as file:
-                pos = file.readlines()
-            with open(dir + 'train_neg_full_cleaned.txt', encoding='utf8') as file:
-                neg = file.readlines()
-        else:
-            with open(dir + 'train_pos_full_processed.txt', encoding='utf8') as file:
-                pos = file.readlines()
-            with open(dir + 'train_neg_full_processed.txt', encoding='utf8') as file:
-                neg = file.readlines()
-    with open('test_data.txt') as file:
+    with open(train_pos, encoding='utf8') as file:
+        pos = file.readlines()
+    with open(train_neg, encoding='utf8') as file:
+        neg = file.readlines()
+    with open(test) as file:
         test = file.readlines()
     return pos, neg, test
 
@@ -77,10 +63,10 @@ def regression(positive_tweets_feature_repr, negative_tweets_feature_repr):
     return clf, X, Y
 
 if __name__ == '__main__':
-    model = word2vec.Word2Vec.load_word2vec_format('word2vec.model.bin', binary=True)
+    model = word2vec.Word2Vec.load_word2vec_format(word2vec_model, binary=True)
     print("model loaded")
 
-    positive_tweets, negative_tweets, test_tweets = load_tweets(full=False, cleaned=True)
+    positive_tweets, negative_tweets, test_tweets = load_tweets(train_neg, train_neg, test)
     print("tweets loaded")
 
     positive_tweets_feature_repr = feature_representation(model, positive_tweets)
@@ -94,6 +80,6 @@ if __name__ == '__main__':
 
     predicted_labels = clf.predict(test_tweets_feature_repr)
     export_predictions(predicted_labels, 'results/word2vec.txt')
-
+    print('predictions exported')
 
 

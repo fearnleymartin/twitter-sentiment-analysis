@@ -6,8 +6,12 @@ from gensim.models import word2vec
 import logging
 import re
 
+# Input file paths (pos and neg tweets)
 train_pos = 'train_pos_processed_full.txt'
 train_neg = 'train_neg_processed_full.txt'
+
+# Output file path (model for word2vec)
+output_model = 'word2vec.preprocessed.full.model.bin'
 
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
@@ -31,5 +35,5 @@ class MySentences(object):
 if __name__ == "__main__":
     sentences = MySentences(train_pos, train_neg)
     model = word2vec.Word2Vec(sentences, size=50, min_count=3)
-    model.save_word2vec_format('word2vec.preprocessed.full.model.bin', binary=True)
+    model.save_word2vec_format(output_model, binary=True)
     print('created word2vec model')
