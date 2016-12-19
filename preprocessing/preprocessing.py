@@ -1,6 +1,11 @@
+# -*- coding: utf-8 -*-
+"""
+Tokenise tweets with nltk tokeniser
+Function preprocess in run on the original tweets (pos, neg and test) and gives a new file for each
+"""
+
 from nltk.tokenize.casual import TweetTokenizer
 import re
-import numpy as np
 
 full = False
 tokenizer = TweetTokenizer(preserve_case=False)
@@ -36,26 +41,26 @@ def preprocess(input_file, output_file, remove_duplicates=True, full=False, remo
 
 
 ###################################################
-train_pos = '../Tweets/train_pos.txt'
-train_neg = '../Tweets/train_neg.txt'
-train_pos_correct = 'train_pos_correct.txt'
+# INPUT/OUTPUT FILES
 
-train_pos_processed = 'train_pos_processed.txt'
-train_neg_processed = 'train_neg_processed.txt'
-train_neg_correct = 'train_neg_correct.txt'
+# Originals files
+train_pos = '../data/original/train_pos.txt'
+train_neg = '../data/original/train_neg.txt'
+test = '../data/original/test_data.txt'
 
-test = '../Tweets/test_data.txt'
-test_processed = 'test_data_processed.txt'
-
-# Make sure you select the correct lines
+# Tokenised / processed files
+train_pos_processed = '../data/processed/train_pos_processed.txt'
+train_neg_processed = '../data/processed/train_neg_processed.txt'
+test_processed = '../data/processed/test_data_processed.txt'
 
 
 #----------------------------------------------------------------
 # PREPROCESSING : should be done only once to generate the files
 # ---------------------------------------------------------------
-preprocess(train_pos, train_pos_processed, full=False)
-preprocess(train_neg, train_neg_processed, full=False)
-#preprocess(test, test_processed, remove_duplicates=False, remove_index=True)
+if __name__ == "__main__":
+    preprocess(train_pos, train_pos_processed, full=False)  # run on positive tweets
+    preprocess(train_neg, train_neg_processed, full=False)  # run on negative tweets
+    preprocess(test, test_processed, remove_duplicates=False, remove_index=True)  # run on test data
 
 
 

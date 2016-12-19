@@ -19,8 +19,8 @@ Your files from pycharm should be synchronised.
 # Preprocessing
 
 ## tokenisation
-In file preprocessing.py  
-Applies nltk tweet tokenizer
+In file preprocessing/preprocessing.py  
+Applies nltk tweet tokenizer to tweets
 
 Run this file to generate tokenised tweet files. Make sure correct lines are commented/decommented to run on correct files.
 
