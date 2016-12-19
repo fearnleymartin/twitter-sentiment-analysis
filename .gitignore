@@ -9,3 +9,6 @@ CNN/runs
 CNN/data
 *.pyc
 *.bin
+*.vec
+*.npy
+*.pkl
