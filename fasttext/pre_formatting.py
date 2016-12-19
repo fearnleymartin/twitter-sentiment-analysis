@@ -2,10 +2,9 @@
 To run fasttext, we need to combine our positive and negative tweets into a single data file
 where each tweet in preceded by its label, for ex '__label__POS, tweet'
 """
-import re
 
 
-def fasttext_formatting(input_file_pos, input_file_neg, output_file, full=False, label=True):
+def fasttext_formatting(input_file_pos, input_file_neg, output_file, label=True):
     """
     Formats tweets to use with fasttext, add label at beginning of each tweet
     :param input_file_pos:
@@ -15,10 +14,6 @@ def fasttext_formatting(input_file_pos, input_file_neg, output_file, full=False,
     :param label: for test data set, we don't want to add a label
     :return:
     """
-    if full:
-        input_file_pos = re.sub('.txt', '_full.txt', input_file_pos)
-        input_file_neg = re.sub('.txt', '_full.txt', input_file_neg)
-        output_file = re.sub('.txt', '_full.txt', output_file)
     with open(output_file, 'w', encoding='utf8') as of:
         with open(input_file_pos, encoding='utf8') as f:
             for pos_tweet in f:
@@ -49,5 +44,5 @@ train_fasttext = '../data/fasttext/train_fasttext.txt'
 #------------------------------------------------------
 
 if __name__ == "__main__":
-    fasttext_formatting(train_pos_processed, train_neg_processed, train_fasttext, full=False)
+    fasttext_formatting(train_pos_processed, train_neg_processed, train_fasttext)
 

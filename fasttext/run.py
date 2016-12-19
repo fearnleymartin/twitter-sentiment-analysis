@@ -1,11 +1,19 @@
-import os
-from fasttext.postprocessing import fasttext_postprocess
+"""
+Trains fasttext model and evaluates on test_data
+Specify input_pos and input_neg files with positive tweet and negative tweet files
+"""
 
-# input/output paths
+import os
+
+# input paths
 dir_path = '../../../vagrant/fasttext/'
 input_tweets_file = dir_path + '../data/fasttext/train_fasttext.txt'  # Should be preprocessed and correctly formatted (see readme)
+
+# intermediary paths (probably don't need to modify)
 model_path = dir_path + 'models/train_model'
 test_path = dir_path + '../data/processed/train_pos_processed.txt'
+
+# output path
 test_predictions_path = dir_path + 'results/results.txt'
 
 # params
@@ -65,4 +73,3 @@ def accuracy(test_predictions_path, test_labels_path):
 if __name__ == "main":
     train(input_tweets_file, model_path, wordNgrams, num_epochs, dim)
     eval(model_path, test_path, test_predictions_path)
-    fasttext_postprocess(test_predictions_path, test_predictions_path + 'processed')
