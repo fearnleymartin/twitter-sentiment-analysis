@@ -19,4 +19,4 @@ Specify correct input/outputs and run
 python classifier.py
 ```
 
-This will a vector for each tweet by summing their word embeddings and then run a random forest followed by cross validation.
+This will generate a vector for each tweet by summing their word embeddings and then run a random forest followed by cross validation.
