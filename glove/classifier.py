@@ -2,17 +2,20 @@ import numpy as np
 from sklearn.cross_validation import cross_val_score
 from helpers_py import export_predictions
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model.logistic import LogisticRegression
+from sklearn.neural_network import MLPClassifier
 
+import re
 
 # Input file paths
-train_pos = '../data/processed/train_pos_processed_full.txt'
-train_neg = '../data/processed/train_neg_processed_full.txt'
+train_pos = '../data/processed/train_pos_processed.txt'
+train_neg = '../data/processed/train_neg_processed.txt'
 test = '../data/processed/test_data_processed.txt'
 embeddings = 'embeddings.npy'
 vocabulary = 'vocab_cut.txt'
 
 # Output file paths
-predictions_output = 'results/predictions.txt'
+predictions_output = 'results/predictions'
 
 
 def load_tweets(train_pos, train_neg, test):
@@ -29,7 +32,7 @@ def load_tweets(train_pos, train_neg, test):
     return pos, neg, test
 
 
-def load_vocab():
+def load_vocab(vocabulary):
     """
     Build dictionary of vocabulary to recover index of word in embeddings
     ex: vocab_dict[the] = 3
@@ -39,6 +42,7 @@ def load_vocab():
     with open(vocabulary) as file:
         vocab = file.readlines()
     for index, word in enumerate(vocab):
+        word = re.sub('\n', '', word)
         vocab_dict[word] = index
     return vocab_dict
 
@@ -56,6 +60,7 @@ def feature_representation(embeddings, tweets, vocab_dict):
         words = tweet.split(' ')  # split into words
         feature_repr = np.zeros(20)
         for word in words:
+            word = re.sub('\n', '', word)
             if word in vocab_dict.keys():
                 feature_repr += embeddings[vocab_dict[word]]
         tweets_feature_repr[index] = feature_repr
@@ -71,23 +76,25 @@ def regression(positive_tweets_feature_repr, negative_tweets_feature_repr):
     :return: classifier, data matrix, labels
     """
     X = np.vstack((positive_tweets_feature_repr, negative_tweets_feature_repr))
-    Y = np.hstack((np.ones(positive_tweets_feature_repr.shape[0]), 0*np.ones(negative_tweets_feature_repr.shape[0])))
+    Y = np.hstack((np.ones(positive_tweets_feature_repr.shape[0]), -1*np.ones(negative_tweets_feature_repr.shape[0])))
     clf = RandomForestClassifier()
+    # clf = LogisticRegression()
+    clf = MLPClassifier()
     clf.fit(X, Y)
     return clf, X, Y
 
 
 if __name__ == '__main__':
     embeddings = np.load(embeddings)
-    positive_tweets, negative_tweets, test_tweets = load_tweets(train_neg, train_neg, test)
-    vocab_dict = load_vocab()
+    positive_tweets, negative_tweets, test_tweets = load_tweets(train_pos, train_neg, test)
+    vocab_dict = load_vocab(vocabulary)
     positive_tweets_feature_repr = feature_representation(embeddings, positive_tweets, vocab_dict)
     negative_tweets_feature_repr = feature_representation(embeddings, negative_tweets, vocab_dict)
     test_tweets_feature_repr = feature_representation(embeddings, test_tweets, vocab_dict)
     print("feature representation created")
 
     clf, X, Y = regression(positive_tweets_feature_repr, negative_tweets_feature_repr)
-    score = cross_val_score(clf, X, Y, cv=5, scoring='accuracy')
+    score = cross_val_score(clf, X, Y, cv=4, scoring='accuracy')
     print(score)
 
     predicted_labels = clf.predict(test_tweets_feature_repr)
