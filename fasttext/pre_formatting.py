@@ -32,11 +32,11 @@ def fasttext_formatting(input_file_pos, input_file_neg, output_file, label=True)
 ####################################################################################
 # INPUT/OUTPUT FILE PARAMS
 # Input
-train_pos_processed = '../data/processed/train_pos_processed.txt'
-train_neg_processed = '../data/processed/train_neg_processed.txt'
+train_pos_processed = '../data/train_pos_processed.txt'
+train_neg_processed = '../data/train_neg_processed.txt'
 
 # Output
-train_fasttext = '../data/fasttext/train_fasttext.txt'
+train_fasttext = '../data/train_fasttext.txt'
 
 #------------------------------------------------------
 # GENERATE THE CORRECT FORMATTING FOR THE TRAIN DATASET FOR FASTTEXT :

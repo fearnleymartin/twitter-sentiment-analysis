@@ -44,14 +44,14 @@ def preprocess(input_file, output_file, remove_duplicates=True, full=False, remo
 # INPUT/OUTPUT FILES
 
 # Originals files
-train_pos = '../data/original/train_pos.txt'
-train_neg = '../data/original/train_neg.txt'
-test = '../data/original/test_data.txt'
+train_pos = '../data/train_pos.txt'
+train_neg = '../data/train_neg.txt'
+test = '../data/test_data.txt'
 
 # Tokenised / processed files
-train_pos_processed = '../data/processed/train_pos_processed.txt'
-train_neg_processed = '../data/processed/train_neg_processed.txt'
-test_processed = '../data/processed/test_data_processed.txt'
+train_pos_processed = '../data/train_pos_processed.txt'
+train_neg_processed = '../data/train_neg_processed.txt'
+test_processed = '../data/test_data_processed.txt'
 
 
 #----------------------------------------------------------------
