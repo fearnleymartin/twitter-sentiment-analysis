@@ -14,7 +14,7 @@ You can specify the input/outputs with the flags in train.py.
 
 We have made it possible ti initialise the cnn with the word embeddings from both word2vec and fasttext.
 
-It is also possible to modify the hyper parametermodel parameters from the flags
+It is also possible to modify the model hyperparameters straight from the flags in train.py
 
 ## Evaluating
 

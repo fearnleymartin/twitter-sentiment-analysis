@@ -1,5 +1,5 @@
 """
-We need to convert the output files produced by fasttest into a file format accepted by kaggle
+We need to convert the output files produced by FastText into a file format accepted by Kaggle
 """
 
 def fasttext_postprocess(input_file, output_file):

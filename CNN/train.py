@@ -67,11 +67,7 @@ x_shuffled = x[shuffle_indices]
 y_shuffled = y[shuffle_indices]
 
 
-'''
-Lucas modified
-'''
 # Split train/test set
-# TODO: This is very crude, should use cross-validation
 dev_sample_index = -1 * int(FLAGS.dev_sample_percentage * float(len(y)))
 x_train, x_dev = x_shuffled[:dev_sample_index], x_shuffled[dev_sample_index:]
 y_train, y_dev = y_shuffled[:dev_sample_index], y_shuffled[dev_sample_index:]
@@ -79,11 +75,6 @@ print("Vocabulary Size: {:d}".format(len(vocab_processor.vocabulary_)))
 print("Train/Dev split: {:d}/{:d}".format(len(y_train), len(y_dev)))
 print(x_train.shape[0])
 print(x_train.shape[1])
-'''
-x_train = x_shuffled
-y_train = y_shuffled
-x_dev, y_dev= data_helpers.load_data_test(FLAGS.test_data_file)
-'''
 
 # Training
 # ==================================================

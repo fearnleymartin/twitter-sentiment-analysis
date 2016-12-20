@@ -1,5 +1,5 @@
 """
-To run fasttext, we need to combine our positive and negative tweets into a single data file
+To run FastText, we need to combine our positive and negative tweets into a single data file
 where each tweet in preceded by its label, for ex '__label__POS, tweet'
 """
 

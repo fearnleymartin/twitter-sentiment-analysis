@@ -18,7 +18,7 @@ def build_k_indices(input_tweets, k_fold, seed):
     return np.array(k_indices)
 
 def cross_validation(input_tweets, k_indices, k, remove_files=True, num_epochs=5, wordNgrams=2, dim=100):
-    """return the loss of ridge regression."""
+    """Returns the loss over a 5-fold Cross Validation."""
     # get k'th subgroup in test, others in train
     input_tweets = np.array(input_tweets)
     te_indice = k_indices[k]
