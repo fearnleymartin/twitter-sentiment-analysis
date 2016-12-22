@@ -1,6 +1,6 @@
 # Generating word embeddings
 
-Run in order (and specify correct input/output paths):
+Run in order (and specify correct input/output paths in the files):
 
 ```
 build_vocab.sh

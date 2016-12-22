@@ -1,25 +1,27 @@
 """
 Trains fasttext model and evaluates on test_data
-Specify input_pos and input_neg files with positive tweet and negative tweet files
+Specify input tweets file (already formatted for running with fasttext
 """
 
 import os
 
 # input paths
 dir_path = '../../../vagrant/fasttext/'
-input_tweets_file = dir_path + '../data/fasttext/train_fasttext.txt'  # Should be preprocessed and correctly formatted (see readme)
+input_tweets_file = dir_path + '../data/fasttext/train_fasttext_full.txt'  # Should be preprocessed and correctly formatted (see readme)
 
 # intermediary paths (probably don't need to modify)
-model_path = dir_path + 'models/train_model'
-test_path = dir_path + '../data/processed/train_pos_processed.txt'
+model_path = dir_path + 'models/model'
+test_path = dir_path + '../data/processed/test_data_processed.txt'
 
 # output path
 test_predictions_path = dir_path + 'results/results.txt'
 
 # params
 wordNgrams = 2
-num_epochs = 7
+num_epochs = 5
 dim = 100
+ws = 5
+learning_rate = 0.1
 
 
 def train(input_file, model_path, wordNgrams, num_epochs, dim):
@@ -32,10 +34,10 @@ def train(input_file, model_path, wordNgrams, num_epochs, dim):
     :param dim: size of word vectors
     :return: None
     """
-    train_command = './fasttext supervised -input {} -output {} -wordNgrams {} -epoch {} -dim {}'.format(input_file,
+    train_command = './fasttext supervised -input {} -output {} -wordNgrams {} -epoch {} -dim {} -ws {} -lr {}'.format(input_file,
                                                                                                      model_path,
                                                                                                      wordNgrams,
-                                                                                                     num_epochs, dim)
+                                                                                                     num_epochs, dim, ws, learning_rate)
     os.system(train_command)
 
 def eval(model_path, test_path, test_predictions_path):
@@ -46,7 +48,7 @@ def eval(model_path, test_path, test_predictions_path):
     :param test_predictions_path: output path for predictions
     :return: None
     """
-    eval_command = './fasttext predict {} {} > {}'.format(model_path, test_path, test_predictions_path)
+    eval_command = './fasttext predict {}.bin {} > {}'.format(model_path, test_path, test_predictions_path)
     os.system(eval_command)
 
 
@@ -70,6 +72,6 @@ def accuracy(test_predictions_path, test_labels_path):
     print('accuracy is {}'.format(acc))
     return acc
 
-if __name__ == "main":
+if __name__ == "__main__":
     train(input_tweets_file, model_path, wordNgrams, num_epochs, dim)
     eval(model_path, test_path, test_predictions_path)

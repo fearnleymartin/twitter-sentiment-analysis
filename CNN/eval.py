@@ -14,8 +14,8 @@ import csv
 # ==================================================
 
 # Data Parameters
-tf.flags.DEFINE_string("positive_data_file", "./data/train_pos_cleaned.txt", "Data source for the positive data.")
-tf.flags.DEFINE_string("negative_data_file", "./data/train_neg_cleaned.txt", "Data source for the negative data.")
+tf.flags.DEFINE_string("positive_data_file", "../data/processed/train_pos_processed.txt", "Data source for the positive data.")
+tf.flags.DEFINE_string("negative_data_file", "./data/processed/train_neg_processed.txt", "Data source for the negative data.")
 tf.flags.DEFINE_string("test_data_file", "./data/test_data.txt", "Data source for the test data")
 
 # Eval Parameters

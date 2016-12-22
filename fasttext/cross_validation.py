@@ -17,7 +17,7 @@ def build_k_indices(input_tweets, k_fold, seed):
     k_indices = [indices[k * interval: (k + 1) * interval] for k in range(k_fold)]
     return np.array(k_indices)
 
-def cross_validation(input_tweets, k_indices, k, remove_files=True, num_epochs=5, wordNgrams=2, dim=100):
+def cross_validation(input_tweets, k_indices, k, remove_files=True, num_epochs=4, wordNgrams=2, dim=130, learning_rate=0.08, ws=7):
     """Returns the loss over a 5-fold Cross Validation."""
     # get k'th subgroup in test, others in train
     input_tweets = np.array(input_tweets)
@@ -48,7 +48,9 @@ def cross_validation(input_tweets, k_indices, k, remove_files=True, num_epochs=5
     eval_command = './fasttext predict {}.bin {} > {}'.format(model_path, test_path, test_predictions_path)
 
     os.system(train_command)
+    print('trained model')
     os.system(eval_command)
+    print('evaluated model')
 
     with open(test_predictions_path) as f:
         predictions = f.readlines()
@@ -69,7 +71,7 @@ def cross_validation(input_tweets, k_indices, k, remove_files=True, num_epochs=5
 if __name__ == "__main__":
     with open(input_tweets_file) as f:
         input_tweets = f.readlines()
-    k_fold = 3
+    k_fold = 4
     k_indices = build_k_indices(input_tweets, k_fold, seed=3)
     scores = []
     for k in range(k_fold):

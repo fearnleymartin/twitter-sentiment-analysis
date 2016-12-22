@@ -12,7 +12,7 @@ Train:
 
 You can specify the input/outputs with the flags in train.py.
 
-We have made it possible ti initialise the cnn with the word embeddings from both word2vec and fasttext.
+We have made it possible to initialise the cnn with the word embeddings from both word2vec and fasttext.
 
 It is also possible to modify the model hyperparameters straight from the flags in train.py
 
@@ -27,7 +27,7 @@ Replace the checkpoint dir with the output from the training. To use your own da
 ## Post-processing
 Specify input/output files and run cnn/postprocessing.py
 
-This will produce a kaggle comopatible submission file from the output given by the cnn.
+This will produce a kaggle compatible submission file from the output given by the cnn.
 
 ## References
 

@@ -5,8 +5,8 @@ import numpy as np
 import os
 import time
 import datetime
-import cnn.data_helpers as data_helpers
-from cnn.text_cnn import TextCNN
+import CNN.data_helpers as data_helpers
+from CNN.text_cnn import TextCNN
 from tensorflow.contrib import learn
 from gensim.models import word2vec
 
@@ -16,11 +16,11 @@ from gensim.models import word2vec
 
 # Data loading params
 tf.flags.DEFINE_float("dev_sample_percentage", .02, "Percentage of the training data to use for validation")
-tf.flags.DEFINE_string("positive_data_file", "../data/processed/train_pos_processed_full.txt", "Data source for the positive data.")
-tf.flags.DEFINE_string("negative_data_file", "../data/processed/train_neg_processed_full.txt", "Data source for the negative data.")
+tf.flags.DEFINE_string("positive_data_file", "../data/processed/train_pos_processed.txt", "Data source for the positive data.")
+tf.flags.DEFINE_string("negative_data_file", "../data/processed/train_neg_processed.txt", "Data source for the negative data.")
 tf.flags.DEFINE_string("test_data_file", "../data/processed/test_data_processed.txt", "Data source for the test data")
 tf.flags.DEFINE_string("word2vec", None, "Data source for word2vec / GloVe embeddings")
-tf.flags.DEFINE_string("fasttext", "../fasttext/models/model_fasttext_repr.vec", "Data source for fasttext embeddings")
+tf.flags.DEFINE_string("fasttext", None, "Data source for fasttext embeddings")
 
 
 

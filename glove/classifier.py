@@ -77,9 +77,9 @@ def regression(positive_tweets_feature_repr, negative_tweets_feature_repr):
     """
     X = np.vstack((positive_tweets_feature_repr, negative_tweets_feature_repr))
     Y = np.hstack((np.ones(positive_tweets_feature_repr.shape[0]), -1*np.ones(negative_tweets_feature_repr.shape[0])))
-    clf = RandomForestClassifier()
-    # clf = LogisticRegression()
-    clf = MLPClassifier()
+    # clf = RandomForestClassifier()
+    clf = LogisticRegression()
+    # clf = MLPClassifier()
     clf.fit(X, Y)
     return clf, X, Y
 
@@ -97,9 +97,9 @@ if __name__ == '__main__':
     score = cross_val_score(clf, X, Y, cv=4, scoring='accuracy')
     print(score)
 
-    predicted_labels = clf.predict(test_tweets_feature_repr)
-    print(predicted_labels)
-    export_predictions(predicted_labels, predictions_output)
+    # predicted_labels = clf.predict(test_tweets_feature_repr)
+    # print(predicted_labels)
+    # export_predictions(predicted_labels, predictions_output)
 
 
 

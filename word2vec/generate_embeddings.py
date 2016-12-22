@@ -7,8 +7,8 @@ import logging
 import re
 
 # Input file paths (pos and neg tweets)
-train_pos = '../data/train_pos.txt'
-train_neg = '../data/train_neg.txt'
+train_pos = '../data/processed/train_pos_processed.txt'
+train_neg = '../data/processed/train_neg_processed.txt'
 
 # Output file path (model for word2vec)
 output_model = 'model.bin'
@@ -33,7 +33,7 @@ class MySentences(object):
             yield line.split()
 
 if __name__ == "__main__":
-    print ('Creating Word2Vec Model')
+    print('Creating Word2Vec Model')
     sentences = MySentences(train_pos, train_neg)
     model = word2vec.Word2Vec(sentences, size=50, min_count=3)
     model.save_word2vec_format(output_model, binary=True)

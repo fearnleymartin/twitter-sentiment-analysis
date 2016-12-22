@@ -5,7 +5,7 @@ We represent each tweet as the sum of its word embeddings
 
 import numpy as np
 from sklearn.cross_validation import cross_val_score
-from helpers_py import exportPredictions
+from helpers_py import export_predictions
 from sklearn.neural_network import MLPClassifier
 from gensim.models import word2vec
 
@@ -88,7 +88,7 @@ if __name__ == '__main__':
 
     print("Exporting Predictions...")
     predicted_labels = clf.predict(test_tweets_feature_repr)
-    exportPredictions(predicted_labels, predictions_output)
+    export_predictions(predicted_labels, predictions_output)
     print("Terminated")
 
 
